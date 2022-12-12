@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="card">
+        <div class="card-header">Update Task</div>
+        <div class="card-body">
+            <div class="container">
+                <form action="/updateTodo/{{ current_todo.id }}" method="post"> {% csrf_token %}
+                    <div class="row">
+                        <div class="col-sm-10">
+                            <div class="mb-3">
+                                <label class="form-label">Task name:</label>
+                                <input type="text" class="form-control" name="task_name" value="{{ current_todo.task_name }}">
+                            </div>
+                            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk" style="margin-right: 0.3rem;"></i>Update</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>  
+    <br>
+    <a href="{% url 'home' %}">
+        <button type="button" class="btn btn-warning"><i class="fa-solid fa-arrow-left" style="margin-right: 0.3rem;"></i>Go back</button>
+    </a>
+{% endblock content %}

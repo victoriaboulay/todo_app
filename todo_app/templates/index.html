@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block content %}
+    <form> 
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" name="task_name" placeholder="Search tasks">
+            <button class="btn btn-primary" ><i class="fa-solid fa-magnifying-glass" style="margin-right: 0.3rem;"></i>Search</button>
+        </div>
+    </form>        
+    {% for todo_item in all_todos %}
+        <div class="row mb-2"> 
+            <div class="col-md-12">
+            <div class="card flex-md-row mb-4 box-shadow h-md-250">
+                    
+                {% if todo_item.completed == True %}
+                    <div class="card-body d-flex flex-column align-items-start" style="background-color: #eee;">  
+                        <h3 class="card-title d-flex justify-content-between w-100 text-secondary"><del>{{ todo_item.task_name }}</del>
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <form action="/updateTodo/{{ todo_item.id }}" method="get"> {% csrf_token %}
+                                    <button class="btn btn-primary" type="submit">Update</button>
+                                </form>
+                                <form action="/deleteTodo/{{ todo_item.id }}" method="get"> {% csrf_token %}
+                                    <button class="btn btn-danger" type="submit"><i class="fa-solid fa-xmark"></i></button>
+                                </form>
+                            </div>
+                        </h3>
+                        <p class="card-text text-secondary"><del>Created at: {{ todo_item.created_at }}</del></p>
+                    </div>
+                {% else %}
+                    <div class="card-body d-flex flex-column align-items-start">  
+                        <h3 class="card-title d-flex justify-content-between w-100">{{ todo_item.task_name }}
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <form action="/updateTodo/{{ todo_item.id }}" method="get"> {% csrf_token %}
+                                    <button class="btn btn-primary" type="submit"><i class="fa-regular fa-pen-to-square"></i></button>
+                                </form>
+                                <form action="/deleteTodo/{{ todo_item.id }}" method="post"> {% csrf_token %}
+                                    <button class="btn btn-danger" type="submit"><i class="fa-solid fa-xmark" ></i></button>
+                                </form>
+                            </div>
+                        </h3>
+                        <p class="card-text">Created at: {{ todo_item.created_at }}</p>
+                    </div>
+                {% endif %} 
+                </div>
+            
+            </div>
+        </div>  
+    {% endfor %}
+    <form action="/addTodo/{{ todo_item.id }}" method="get"> {% csrf_token %}
+        <div class="input-group mb-3">
+            <button class="btn btn-primary" type="submit" style="background-color:darkgreen">+ Add a new task</button>
+        </div>
+    </form>  
+{% endblock content %}
